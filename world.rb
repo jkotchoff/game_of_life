@@ -1,14 +1,3 @@
-# modify ruby Array behaviour to return nil if the specified index is outside it's bounds
-=begin
-#TODO: 
-class Array
-  def [](index)
-    return nil if index < 0
-    super(index-1)
-  end
-end
-=end
-
 WorldState = Struct.new :cells do
   def cell_matching(other_cell)
     cells.each do |cell| 
@@ -64,56 +53,21 @@ class TwoDimensionalWorld < World
     rows.each_with_index do |row, row_index|
       self.width ||= row.length
       row.each_char.each_with_index do |char, cell_index|
-        
+
+        # Determine how many neighbours are alive
+        up = row_index > 0
+        right = cell_index + 1 < self.width
+        down = row_index + 1 < self.height
+        left = cell_index > 0
         neighbours = []
-        
-        # Check row above
-        if row_index > 0
-          row_above = rows[row_index - 1]
-
-          if cell_index > 0 
-            # Check up-left
-            neighbours << row_above.chars.collect[cell_index - 1]
-          end
-
-          # Check up
-          neighbours << row_above.chars.collect[cell_index]
-
-          if cell_index + 1 < self.width
-            # Check up-right
-            neighbours << row_above.chars.collect[cell_index + 1]
-          end
-        end
-        
-        # Check right
-        if cell_index + 1 < self.width
-          # Check right
-          neighbours << row.chars.collect[cell_index + 1]
-        end
-
-        # Check row below
-        if row_index + 1 < self.height
-          row_below = rows[row_index + 1]
-
-          if cell_index > 0 
-            # Check down-left
-            neighbours << row_below.chars.collect[cell_index - 1]
-          end
-
-          # Check down
-          neighbours << row_below.chars.collect[cell_index]
-
-          if cell_index + 1 < self.width
-            # Check down-right
-            neighbours << row_below.chars.collect[cell_index + 1]
-          end
-        end
-
-        if cell_index > 0 
-          # Check left
-          neighbours << row.chars.collect[cell_index - 1]
-        end
-        
+        neighbours << rows[row_index - 1].chars.collect[cell_index - 1] if up   && left
+        neighbours << rows[row_index - 1].chars.collect[cell_index]     if up           
+        neighbours << rows[row_index - 1].chars.collect[cell_index + 1] if up   && right
+        neighbours << row.chars.collect[cell_index + 1]                 if         right
+        neighbours << rows[row_index + 1].chars.collect[cell_index + 1] if down && right
+        neighbours << rows[row_index + 1].chars.collect[cell_index]     if down         
+        neighbours << rows[row_index + 1].chars.collect[cell_index - 1] if down && left
+        neighbours << row.chars.collect[cell_index - 1]                 if         left
         live_neighbour_count = neighbours.compact.select{|neighbour| neighbour == ALIVE}.length
 
         cells << Cell.new(

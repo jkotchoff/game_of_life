@@ -14,7 +14,7 @@ end
 describe WorldState do
   describe "#cell_matching" do
     let(:three_horizontal_cells) do
-      World::TwoDimensionalWorld.new(%Q{
+      TwoDimensionalRectangularWorld.new(%Q{
         .x.
       })
     end
@@ -31,7 +31,7 @@ describe World do
   describe "#evolve" do
     context "when a live cell with fewer then two live neighbours exists" do
       let(:world) {
-        World::TwoDimensionalWorld.new(%Q{
+        TwoDimensionalRectangularWorld.new(%Q{
           ...
           .x.
           ...
@@ -53,10 +53,10 @@ describe World do
   end
 end
 
-describe World::TwoDimensionalWorld do
+describe TwoDimensionalRectangularWorld do
   describe "#cells" do
     let(:two_horizontal_cells) do
-      World::TwoDimensionalWorld.new(%Q{
+      TwoDimensionalRectangularWorld.new(%Q{
         ..
       })
     end
@@ -85,7 +85,7 @@ describe World::TwoDimensionalWorld do
 
   describe "#to_s" do
     subject do
-      World::TwoDimensionalWorld.new(%Q{
+      TwoDimensionalRectangularWorld.new(%Q{
         .....
         ..x..
         ..x..

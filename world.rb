@@ -40,18 +40,23 @@ class World
   end
 end
 
-class TwoDimensionalWorld < World
+class TwoDimensionalRectangularWorld < World
   ALIVE = 'x'             # used to parse input strings
   attr_accessor :height   # used for visualizing to_s
   attr_accessor :width    # used for neighbour checking bounds
   
   def initialize(initial_state)
-    rows = initial_state.split("\n").collect(&:trim).reject(&:blank?)
-    self.height = rows.length
-    self.width = nil
+    rows_of_dots_and_crosses = initial_state.split("\n").collect(&:trim).reject(&:blank?)
+    self.height = rows_of_dots_and_crosses.length
+    self.width = rows_of_dots_and_crosses.first.length
+    cells = parse_tokenized_string_input(rows_of_dots_and_crosses)
+    self.current_state = WorldState.new(cells)
+  end
+  
+  def parse_tokenized_string_input(rows)
     cells = []
+    
     rows.each_with_index do |row, row_index|
-      self.width ||= row.length
       row.each_char.each_with_index do |char, cell_index|
 
         # Determine how many neighbours are alive
@@ -80,13 +85,14 @@ class TwoDimensionalWorld < World
         )
       end
     end
-    self.current_state = WorldState.new(cells)
+
+    cells
   end
   
   def to_s
     str = ''
     cells.each_with_index do |cell, i|
-      str += "\n" if i % height == 0
+      str += "\n" if i % width == 0
       str += cell.to_s
     end
     str + "\n"

@@ -29,22 +29,25 @@ end
 
 describe World do
   describe "#evolve" do
-    before{ pending }
     context "when a live cell with fewer then two live neighbours exists" do
-      subject do
+      let(:world) {
         World::TwoDimensionalWorld.new(%Q{
           ...
           .x.
           ...
-        }).evolve.to_s
+        })        
+      }
+      before do
+        world.evolve
+        @evolved_world = world.to_s
       end
 
       it "kills the live cell" do
-        subject.should == %Q{
+        @evolved_world.should == %Q{
           ...
           ...
           ...
-        }
+        }.gsub(/ /m, '')
       end
     end
   end
@@ -60,8 +63,22 @@ describe World::TwoDimensionalWorld do
 
     it "returns cells that can be evolved based on rules" do
       two_horizontal_cells.current_state.cells.should == [
-        Cell.new(:state => false, :position => {:row => 0, :column => 0}),
-        Cell.new(:state => false, :position => {:row => 0, :column => 1})
+        Cell.new(
+          :state => false, 
+          :position => {
+            :row => 0, 
+            :column => 0
+          }, 
+          :live_neighbour_count => 0
+        ),
+        Cell.new(
+          :state => false, 
+          :position => {
+            :row => 0, 
+            :column => 1
+          }, 
+          :live_neighbour_count => 0
+        )
       ]
     end
   end

@@ -52,6 +52,7 @@ class World
 end
 
 class TwoDimensionalWorld < World
+  ALIVE = 'x'             # used to parse input strings
   attr_accessor :height   # used for visualizing to_s
   attr_accessor :width    # used for neighbour checking bounds
   
@@ -63,13 +64,65 @@ class TwoDimensionalWorld < World
     rows.each_with_index do |row, row_index|
       self.width ||= row.length
       row.each_char.each_with_index do |char, cell_index|
+        
+        neighbours = []
+        
+        # Check row above
+        if row_index > 0
+          row_above = rows[row_index - 1]
+
+          if cell_index > 0 
+            # Check up-left
+            neighbours << row_above.chars.collect[cell_index - 1]
+          end
+
+          # Check up
+          neighbours << row_above.chars.collect[cell_index]
+
+          if cell_index + 1 < self.width
+            # Check up-right
+            neighbours << row_above.chars.collect[cell_index + 1]
+          end
+        end
+        
+        # Check right
+        if cell_index + 1 < self.width
+          # Check right
+          neighbours << row.chars.collect[cell_index + 1]
+        end
+
+        # Check row below
+        if row_index + 1 < self.height
+          row_below = rows[row_index + 1]
+
+          if cell_index > 0 
+            # Check down-left
+            neighbours << row_below.chars.collect[cell_index - 1]
+          end
+
+          # Check down
+          neighbours << row_below.chars.collect[cell_index]
+
+          if cell_index + 1 < self.width
+            # Check down-right
+            neighbours << row_below.chars.collect[cell_index + 1]
+          end
+        end
+
+        if cell_index > 0 
+          # Check left
+          neighbours << row.chars.collect[cell_index - 1]
+        end
+        
+        live_neighbour_count = neighbours.compact.select{|neighbour| neighbour == ALIVE}.length
+
         cells << Cell.new(
-          :state => (char == 'x'), 
+          :state => (char == ALIVE), 
           :position => {
             :row => row_index, 
             :column => cell_index
           },
-          :live_neighbour_count => nil
+          :live_neighbour_count => live_neighbour_count
         )
       end
     end

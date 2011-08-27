@@ -15,8 +15,9 @@ Cell = Struct.new :state, :position, :live_neighbour_count do
     !!state
   end
   
-  def evolve
-    state = false if live_neighbour_count < 2
+  def evolve!
+    self.state = false if live_neighbour_count < 2
+    self
   end
   
   def to_s
@@ -31,12 +32,13 @@ class World
     current_state.cells
   end
 
-  def evolve
+  def evolve!
     self.current_state = self.current_state.dup.tap do |evolved_state|
       evolved_state.cells.each do |new_cell| 
-        new_cell.state = current_state.cell_matching(new_cell).evolve
+        new_cell.state = current_state.cell_matching(new_cell).evolve!.state
       end
     end
+    self
   end
 end
 

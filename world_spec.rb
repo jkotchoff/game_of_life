@@ -11,6 +11,30 @@ class String
   end
 end
 
+describe World do
+  describe "#evolve!" do
+    context "with a block-patterned still life" do
+      subject do
+        TwoDimensionalRectangularWorld.new(%Q{
+          ....
+          .xx.
+          .xx.
+          ....
+        })
+      end
+  
+      specify do
+        subject.evolve!.to_s.should == %Q{
+          ....
+          .xx.
+          .xx.
+          ....
+        }.gsub(/ /m, '')
+      end
+    end
+  end
+end
+
 describe WorldState do
   describe "#cell_matching" do
     let(:three_horizontal_cells) do
@@ -27,28 +51,14 @@ describe WorldState do
   end
 end
 
-describe World do
+describe Cell do
   describe "#evolve" do
     context "when a live cell with fewer then two live neighbours exists" do
-      let(:world) {
-        TwoDimensionalRectangularWorld.new(%Q{
-          ...
-          .x.
-          ...
-        })        
-      }
-      before do
-        world.evolve
-        @evolved_world = world.to_s
-      end
+      let(:zero_neighbours) { Cell.new(:state => true, :live_neighbour_count => 0) }
+      specify{ zero_neighbours.evolve!.alive?.should == false }
 
-      it "kills the live cell" do
-        @evolved_world.should == %Q{
-          ...
-          ...
-          ...
-        }.gsub(/ /m, '')
-      end
+      let(:one_neighbour)   { Cell.new(:state => true, :live_neighbour_count => 1) }
+      specify{ one_neighbour.evolve!.alive?.should == false }
     end
   end
 end

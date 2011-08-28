@@ -146,14 +146,19 @@ class TwoDimensionalRectangularWorld < World
 end
 
 class WorldSimulator
+  require 'curses'
+  
   def self.run(world_origin_state_file_path, sleep_time = 0.4)
-    puts "\nRunning Game of Life simulation - press <ctrl> + c to stop\n\n"
-    
     original_state = File.read(world_origin_state_file_path)
     world = TwoDimensionalRectangularWorld.new(original_state)
     
     loop do
-      puts world.to_s
+      Curses.clear
+      Curses.setpos(1, 0)
+      Curses.addstr("Running Game of Life simulation on #{world_origin_state_file_path} - press <ctrl> + c to stop")
+      Curses.setpos(2, 0)
+      Curses.addstr(world.to_s)
+      Curses.refresh
       world.evolve!
       sleep sleep_time.to_f
     end

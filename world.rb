@@ -49,7 +49,9 @@ class Cell
     if other_cell && !neighbours.index(other_cell)
       self.neighbours << other_cell
       other_cell.neighbours ||= []
-      other_cell.neighbours << self
+      if !other_cell.neighbours.index(self)
+        other_cell.neighbours << self 
+      end
     end
   end
   
@@ -165,7 +167,7 @@ class WorldSimulator
   end
 end
 
-unless @test
+unless @library_call
   if ARGV.length == 2 || ARGV.length == 4 && ARGV[0] == '--simulate'
     if ARGV[2] == '--sleep' && ARGV[3]
       WorldSimulator.run(ARGV[1], ARGV[3])

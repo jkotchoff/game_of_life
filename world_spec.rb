@@ -1,4 +1,4 @@
-@test = true
+@library_call = true
 
 require 'world'
 require 'ruby-debug'

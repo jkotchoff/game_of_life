@@ -13,11 +13,13 @@ Pete Yandell hosted a [code retreat] [2] at Envato on August 27th in 2011 where 
     $ ./world.rb --simulate sample_worlds/oscillator-blinking.gol
 
 ## Codebase thoughts
-The performance of this codebase could definitely be optimised a lot. 
+This implementations board also doesn't grow. It does simulate patterns though which is enough for now.
+
+The performance could definitely be optimised a lot - adding bigger worlds (eg. to the Gosper Glider Gun in the sample_worlds/ directory) is horriby slow. 
 
 It would also be interesting to test with infinity in mind - would the data type usage blow up memory allocation?
 
-This implementations board also doesn't grow. 
+Things to consider for a future code retreat!
 
   [1]: http://en.wikipedia.org/wiki/Conway's_Game_of_Life "Wikipedia"
   [2]: http://notes.envato.com/developers/code-retreat/   "Envato"  

@@ -1,3 +1,5 @@
+@test = true
+
 require 'world'
 require 'ruby-debug'
 

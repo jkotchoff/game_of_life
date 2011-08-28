@@ -146,7 +146,7 @@ class TwoDimensionalRectangularWorld < World
 end
 
 class WorldSimulator
-  def self.run(world_origin_state_file_path)
+  def self.run(world_origin_state_file_path, sleep_time = 0.4)
     puts "\nRunning Game of Life simulation - press <ctrl> + c to stop\n\n"
     
     original_state = File.read(world_origin_state_file_path)
@@ -154,16 +154,22 @@ class WorldSimulator
     
     loop do
       puts world.to_s
-      sleep(0.6)
       world.evolve!
+      sleep sleep_time.to_f
     end
   end
 end
 
-if ARGV.length == 2 && ARGV[0] == '--simulate'
-  WorldSimulator.run(ARGV[1])
-else
-  puts "\n"
-  puts " usage syntax: ./world.rb --simulate [file_path_to_worlds_original_state]\n\n"
-  puts "           eg: ./world.rb --simulate sample_worlds/oscillator-blinking.gol\n\n"
+unless @test
+  if ARGV.length == 2 || ARGV.length == 4 && ARGV[0] == '--simulate'
+    if ARGV[2] == '--sleep' && ARGV[3]
+      WorldSimulator.run(ARGV[1], ARGV[3])
+    else
+      WorldSimulator.run(ARGV[1])
+    end
+  else
+    puts "\n"
+    puts " usage syntax: ./world.rb --simulate [file_path_to_worlds_original_state] --sleep [seconds]\n\n"
+    puts "           eg: ./world.rb --simulate sample_worlds/oscillator-blinking.gol --sleep 0.4\n\n"
+  end
 end

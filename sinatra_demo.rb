@@ -27,7 +27,7 @@ __END__
 %html
   %head
     %title Sinatra Game of Life Demo
-    /%script{:type => 'text/javascript', :src => 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'}
+
     %script{:type => 'text/javascript', :src => 'jquery-1.5.1.min.js'}
 
     :javascript
@@ -62,15 +62,23 @@ __END__
       });
       
   %body
-    %pre#world 
-      Loading..
-    %form#evolve{:action => '/evolve'}
-      #actions
-        %select{:name => 'world_name'}
-          %option{:value => 'oscillator-pulsar'} Pulsar Oscillator 
-          %option{:value => 'oscillator-blinking'} Blinking Oscillator 
-          %option{:value => 'spaceship-lightweight'} Lightweight Spaceship 
-          %option{:value => 'gosper_glider_gun'} Gosper Glider Gun 
-        %label{:for => 'refresh_rate'} Refresh Rate (in seconds):
-        %input.pink{:type => "text", :id => "refresh_rate", :value => "1.0"}
-        %input.pink{:type => "button", :id => "pause_button", :value => "pause"}
+    #content{:style => "text-align:center"}
+      %h1 Cellular Automation Simulation
+      %pre#world{:style => "margin-bottom:40px"} 
+        Loading..
+      %form#evolve{:action => '/evolve'}
+        #actions
+          %select{:name => 'world_name'}
+            %option{:value => 'oscillator-pulsar'} Pulsar Oscillator 
+            %option{:value => 'oscillator-blinking'} Blinking Oscillator 
+            %option{:value => 'spaceship-lightweight'} Lightweight Spaceship 
+            %option{:value => 'gosper_glider_gun'} Gosper Glider Gun 
+          %label{:for => 'refresh_rate'} Refresh Rate (in seconds):
+          %input.pink{:type => "text", :id => "refresh_rate", :value => "1.0"}
+          %input.pink{:type => "button", :id => "pause_button", :value => "pause"}
+      %p
+        The code for this implementation of
+        %a{:href => "http://en.wikipedia.org/wiki/Conway's_Game_of_Life"} Life
+        is at:
+        %a{:href => "http://github.com/cornflakesuperstar/game_of_life"} 
+          http://github.com/cornflakesuperstar/game_of_life

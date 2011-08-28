@@ -22,4 +22,4 @@ It would also be interesting to test with infinity in mind - would the data type
 Things to consider for a future code retreat!
 
   [1]: http://en.wikipedia.org/wiki/Conway's_Game_of_Life "Wikipedia"
-  [2]: http://notes.envato.com/developers/code-retreat/   "Envato"  
+  [2]: http://notes.envato.com/developers/code-retreat/   "code retreat"  

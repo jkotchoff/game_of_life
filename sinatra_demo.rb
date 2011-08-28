@@ -4,7 +4,7 @@ require 'sinatra'
 use Rack::Session::Pool
 
 @library_call = true
-require 'world'
+require './world'
 
 get '/' do
   haml :app

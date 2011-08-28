@@ -16,7 +16,11 @@ Cell = Struct.new :state, :position, :live_neighbour_count do
   end
   
   def evolve!
-    self.state = false if live_neighbour_count < 2
+    if alive? && live_neighbour_count < 2 || live_neighbour_count > 3
+      self.state = false
+    elsif !alive? && live_neighbour_count == 3
+      self.state = true
+    end
     self
   end
   

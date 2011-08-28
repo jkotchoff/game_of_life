@@ -14,17 +14,13 @@ end
 describe World do
   describe "#evolve!" do
     context "with a block-patterned still life" do
-      subject do
+      it "doesn't change state" do
         TwoDimensionalRectangularWorld.new(%Q{
           ....
           .xx.
           .xx.
           ....
-        })
-      end
-  
-      specify do
-        subject.evolve!.to_s.should == %Q{
+        }).evolve!.to_s.should == %Q{
           ....
           .xx.
           .xx.
@@ -53,12 +49,48 @@ end
 
 describe Cell do
   describe "#evolve" do
-    context "when a live cell with fewer then two live neighbours exists" do
-      let(:zero_neighbours) { Cell.new(:state => true, :live_neighbour_count => 0) }
-      specify{ zero_neighbours.evolve!.alive?.should == false }
+    def make_live_cell(live_neighbour_count)
+      Cell.new(:state => true, :live_neighbour_count => live_neighbour_count)
+    end
+    
+    context "when alive with fewer then two live neighbours" do
+      let(:zero_neighbour_cell) { make_live_cell(0) }
+      it "dies, as if caused by under-population" do
+        zero_neighbour_cell.evolve!.alive?.should == false
+      end
 
-      let(:one_neighbour)   { Cell.new(:state => true, :live_neighbour_count => 1) }
-      specify{ one_neighbour.evolve!.alive?.should == false }
+      let(:one_neighbour_cell)   { make_live_cell(1) }
+      it "dies, as if caused by under-population" do
+        one_neighbour_cell.evolve!.alive?.should == false
+      end
+    end
+
+    context "when alive with two or three live neighbours" do
+      let(:two_neighbour_cell) { make_live_cell(2) }
+      it "lives on to the next generation" do
+        two_neighbour_cell.evolve!.alive?.should == true
+      end
+
+      let(:three_neighbour_cell) { make_live_cell(3) }
+      it "lives on to the next generation" do
+        three_neighbour_cell.evolve!.alive?.should == true
+      end
+    end
+
+    context "when alive with more than three live neighbours" do
+      (4..8).each do |live_neighbour_count|
+        subject{ make_live_cell(live_neighbour_count) }
+        it "dies, as if caused by overcrowding" do
+          subject.evolve!.alive?.should == false
+        end
+      end
+    end
+    
+    context "when dead with exactly three live neighbours" do
+      let(:three_neighbour_dead_cell) { Cell.new(:state => false, :live_neighbour_count => 3) }
+      it "becomes a live cell, as if by reproduction" do
+        three_neighbour_dead_cell.evolve!.alive?.should == true
+      end
     end
   end
 end

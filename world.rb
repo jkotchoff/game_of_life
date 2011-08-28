@@ -1,3 +1,13 @@
+class String
+  def trim_whitespace!
+    self.gsub!(/ /m, '')
+  end
+
+  def blank?
+    self == ''
+  end
+end
+
 WorldState = Struct.new :cells do
   def cell_matching(other_cell)
     cells.each do |cell| 
@@ -52,7 +62,7 @@ class TwoDimensionalRectangularWorld < World
   attr_accessor :width    # used for neighbour checking bounds
   
   def initialize(initial_state)
-    rows_of_dots_and_crosses = initial_state.split("\n").collect(&:trim).reject(&:blank?)
+    rows_of_dots_and_crosses = initial_state.split("\n").each(&:trim_whitespace!).reject(&:blank?)
     self.height = rows_of_dots_and_crosses.length
     self.width = rows_of_dots_and_crosses.first.length
     cells = parse_tokenized_string_input(rows_of_dots_and_crosses)

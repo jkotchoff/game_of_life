@@ -1,31 +1,53 @@
 require 'world'
 require 'ruby-debug'
 
-class String
-  def trim
-    self.gsub(/ /m, '')
-  end
-
-  def blank?
-    self == ''
-  end
-end
-
 describe World do
   describe "#evolve!" do
-    context "with a block-patterned still life" do
-      it "doesn't change state" do
-        TwoDimensionalRectangularWorld.new(%Q{
-          ....
-          .xx.
-          .xx.
-          ....
-        }).evolve!.to_s.should == %Q{
-          ....
-          .xx.
-          .xx.
-          ....
-        }.gsub(/ /m, '')
+    describe "patterns" do
+      context "with a block still life" do
+        it "doesn't change state" do
+          TwoDimensionalRectangularWorld.new(%Q{
+            . . . .
+            . x x .
+            . x x .
+            . . . .
+          }).evolve!.to_s.should == %Q{
+            . . . .
+            . x x .
+            . x x .
+            . . . .
+          }.trim_whitespace!
+        end
+      end
+  
+      context "with a blinkered oscillator" do
+        let(:vertical_blinker) do
+          %Q{
+            . . . . .
+            . . x . .
+            . . x . .
+            . . x . .
+            . . . . .
+          }          
+        end
+
+        let(:horizontal_blinker) do
+          %Q{
+            . . . . .
+            . . . . .
+            . x x x .
+            . . . . .
+            . . . . .
+          }
+        end
+        
+        it "rotates sideways" do
+          TwoDimensionalRectangularWorld.new(vertical_blinker).evolve!.to_s.should == horizontal_blinker.trim_whitespace!
+        end
+  
+        it "rotates sideways" do
+          TwoDimensionalRectangularWorld.new(horizontal_blinker).evolve!.to_s.should == vertical_blinker.trim_whitespace!
+        end
       end
     end
   end
@@ -35,7 +57,7 @@ describe WorldState do
   describe "#cell_matching" do
     let(:three_horizontal_cells) do
       TwoDimensionalRectangularWorld.new(%Q{
-        .x.
+        . x .
       })
     end
     let(:three_cell_duplicate){ three_horizontal_cells.current_state.dup }
@@ -99,7 +121,7 @@ describe TwoDimensionalRectangularWorld do
   describe "#cells" do
     let(:two_horizontal_cells) do
       TwoDimensionalRectangularWorld.new(%Q{
-        ..
+        . .
       })
     end
 
@@ -128,22 +150,22 @@ describe TwoDimensionalRectangularWorld do
   describe "#to_s" do
     subject do
       TwoDimensionalRectangularWorld.new(%Q{
-        .....
-        ..x..
-        ..x..
-        ..x..
-        .....
+        . . . . .
+        . . x . .
+        . . x . .
+        . . x . .
+        . . . . .
       })
     end
 
     it "dumps the current state of the world into a string that can be printed" do
       subject.to_s.should == %Q{
-        .....
-        ..x..
-        ..x..
-        ..x..
-        .....
-      }.gsub(/ /m, '')
+        . . . . .
+        . . x . .
+        . . x . .
+        . . x . .
+        . . . . .
+      }.trim_whitespace!
     end
   end
 end

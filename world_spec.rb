@@ -1,7 +1,6 @@
 @library_call = true
 
 require 'world'
-require 'ruby-debug'
 
 describe World do
   describe "#evolve!" do

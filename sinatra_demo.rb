@@ -10,7 +10,6 @@ get '/' do
   haml :app
 end
 
-require 'ruby-debug'
 post '/evolve' do
   if session['world_name'] != params[:world_name]
     session['world_name'] = params[:world_name] 

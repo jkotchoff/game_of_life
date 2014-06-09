@@ -4,7 +4,7 @@ The Game of Life, also known simply as Life, is a cellular automaton devised by 
 mathematician John Horton Conway in 1970 - [Wikipedia] [1]
 
 ## Example
-To see a web example of this codebase, go to http://cornflakesuperstar-gameoflife.heroku.com/ 
+To see a web example of this codebase, go to http://cornflakesuperstar-gameoflife.herokuapp.com 
 
 ## Project inspiration
 Pete Yandell hosted a [code retreat] [2] at Envato on August 27th in 2011 where we practised TDD pairing using the Game of Life as our problem. It was a bit tricky to bang out a solution in 45 minutes. This github project was created to think about it a bit more.

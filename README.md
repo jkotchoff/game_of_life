@@ -6,7 +6,7 @@ mathematician John Horton Conway in 1970 - [Wikipedia] [1]
 ## Example
 To see a web example of this codebase, go to http://jkotchoff-gameoflife.herokuapp.com 
 
-[![Web demo of game of life](http://jkotchoff-gameoflife.herokuapp.com)](https://raw.githubusercontent.com/jkotchoff/game_of_life/master/screenshot.png)
+[![Web demo of game of life](https://raw.githubusercontent.com/jkotchoff/game_of_life/master/screenshot.png)](http://jkotchoff-gameoflife.herokuapp.com)
 
 
 

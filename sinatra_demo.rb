@@ -79,5 +79,5 @@ __END__
         The code for this implementation of
         %a{:href => "http://en.wikipedia.org/wiki/Conway's_Game_of_Life"} Life
         is at:
-        %a{:href => "http://github.com/cornflakesuperstar/game_of_life"} 
-          http://github.com/cornflakesuperstar/game_of_life
+        %a{:href => "http://github.com/jkotchoff/game_of_life"} 
+          http://github.com/jkotchoff/game_of_life

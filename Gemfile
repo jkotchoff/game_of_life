@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
-ruby "1.9.3"
+ruby "2.4.2"
 
 gem 'haml'
 gem 'sinatra'
 gem 'thin'
+gem 'curses'
